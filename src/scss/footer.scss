@@ -1,0 +1,29 @@
+//====================================================================================================
+.footer {
+    position: relative;
+    z-index: 2;
+    // .footer__container
+    &__container {
+        display: flex;
+        padding: rem(15) 0;
+        justify-content: center;
+    }
+    // .footer__copyright
+    /* &__copyright {       
+        color: $mainYellow;
+        font-weight: 600;
+        font-size: rem(20);
+        @extend %cormor;
+        @media (any-hover: hover){
+            &:hover{
+                transform: scale(1.2);
+                transition: scale 0.8s ease 0s;
+            }
+        }        
+    } */
+}
+
+ 
+
+
+//====================================================================================================

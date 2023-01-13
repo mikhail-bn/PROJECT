@@ -1,0 +1,316 @@
+//====================================================================================================
+.header {
+	color: rgb(255, 255, 255); // цвет шрифта в header
+	padding: 10px 0; // отступ верх-низ header 
+	position: absolute; // Изначально ездит со скроллом
+	width: 100%;
+	top: 0; // Всегда сверху
+	left: 0;
+	z-index: 50; // Всегда впереди)
+	&._header-scroll {
+		position: fixed;
+		top: -200%; // Как вариант на замену transform: translate
+		//transform: translate(0px, -100%);	// Как вариант (проблемный) на замену топ	
+		background-color: rgba(0,0,0,0.8); // Полупрозрачный фон
+		// background: linear-gradient(to bottom, rgba(0,0,0,0.85) 90%,rgba(0,0,0,0.85) 95%,rgba(0,0,0,0) 100%); 
+	}
+	&._header-show {
+		top: 0; // Как вариант на замену transform: translate
+		transition: top 0.5s ease 0s; // Анимация скрытия фона header
+		//transform: translate(0px,0px); // Как вариант (проблемный) на замену топ
+		
+	}
+
+	// .header__container
+	&__container {
+		align-items: center; // центрирование флекс-блоков по высоте
+		position: relative;
+		display: flex;	// инициация flexbox	
+		gap: 10px; // отступы внутри .header__container
+		@include adaptiveValue("min-height", 121, 50); // размерозадающий! адаптив диапазона уменьшения высоты с 121px (по умолчанию старт с 1330px $maxWidthContainer: 1300; + 15 +15) до 50px (меньше не сужаться)
+		@media (max-width:$mobile){
+			 gap: 25px;  // увеличение gap на моб. устройствах с 10 (на всех других) до 25 (на моб.)
+		} 
+		._header-scroll &{
+			@include adaptiveValue("min-height",80,50 );
+		}				
+
+		// .header__container_wide
+		&_wide {				
+		}
+	}
+	// .header__column
+	&__column {
+		flex-grow: 0; // запрет расширяться общее свойство  .header__column
+		flex-shrink: 0; // запрет сужаться  общее свойство  .header__column
+		@include adaptiveValue("flex-basis", 300, 180, 2, 1330, 768); // адаптивное свойство уменьшения контейнеров при "достижении" базиса флекс ($maxWidthContainer: 1300; + 15 +15) с 300px до 180px при достижении базиса 768px "держать" 180px
+		&_wide {
+			flex: 1 1 auto; // разрешение расширяться и сужаться "центральному" .header__column_wide контейнеру
+		}
+		&_auth {
+			align-self: stretch; // команда расширяться от размера line-height до максимума высоты по базису флекс-блока
+		}		
+	}
+
+	// .header__logo
+	&__logo {
+		@extend %cormor; // ссылка переменной в base.scss для шрифта CormorantUpright	
+		position: relative;
+		z-index: 2;
+		font-weight: 700;
+		line-height: 130%;		
+		letter-spacing: 0.04em;		
+		text-transform: uppercase; // Заглавными 
+		@include adaptiveValue("font-size", 44, 35, 2, 1330, 319);		
+		}
+
+	// .header__menu
+	&__menu {		
+	}
+
+	// .header__auth
+	&__auth {		
+		}
+}
+
+.menu {
+
+	// .menu__icon
+	&__icon {
+	}
+
+	// .menu__body
+	&__body {
+		@media (max-width:$mobile){
+			 position: fixed; // место под item'ы фиксируется и далее убираются эти самые пункты
+			 overflow: auto; // Добавляет вертикальный скроллинг если мало высоты
+			 width: 100%;
+			 height: 100%;
+			 top: 0;
+			 left: -100%; // убрать на мобильных устройствах с сохранением размеров блока...влево) будет оттуда появляться
+			 transition: left 0.3s ease 0s;
+			 background-color: #0C0B08;
+			 @include adaptiveValue("padding-top", 170, 100);
+			 padding-bottom: rem(30);
+			 padding-right: rem(15);
+			 padding-left: rem(15);
+			 &::before {
+				content: "";
+				top: -100%;
+				position: fixed;
+				width: 100%;
+				left: 0;
+				transition: top 0.3s ease 0s;
+				background: linear-gradient(to bottom, rgba(0,0,0,1) 50%,rgba(0,0,0,0.65) 50%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+				@include adaptiveValue("height", 141, 90);
+			 }
+			 .menu-open & {
+				left: 0;
+				&::before {
+					left: 0;					
+				}
+			 }
+		}
+	}
+
+	// .menu__list
+	&__list {
+		display: flex;
+		row-gap: 5px; // отступ между строками (если он будет при переносе wrap)
+		flex-wrap: wrap; // Переносить на др. строку если на этой места нет
+		justify-content: center; // центрирование элементов по центру внутри центрального флекс-блока
+		align-items: center;	// вертикальное центрирование элементов внутри центрального флекс-блока			
+		@include adaptiveValue("column-gap", 32, 15, 2, 1330, 375);	// адаптив уменьшения отступов с 32px до базися 1330px c последующим постепенным уменьшением до 25px при достижении базися 768px отступ дальше на уменьшается 
+		@media (max-width:$mobile){
+			  flex-direction: column;
+			  &:not(:last-child) {
+				margin-bottom: rem(50);
+			}
+		}
+	}
+
+	// .menu__item
+	&__item {
+	}
+
+	// .menu__link
+	&__link {
+		line-height: 175%;
+		letter-spacing: 0.04em;			
+		@media (any-hover: hover){
+			&:hover {
+				color: $mainYellow; // цвет при наведении курсора, переменная в style.scss
+			}
+		}
+		@media (max-width:$mobileSmall){
+			  font-size: rem(30);
+		}	
+	}
+}
+.icon-menu {
+}
+
+// .auth-header
+.auth-header {
+	height: 100%;
+	align-self: stretch; 
+	display: flex;
+	row-gap: 5px;		
+	justify-content: center;	
+	@include adaptiveValue("column-gap", 50, 20, 2, 1330, 1150);
+	@media (max-width: em(1150)){
+		flex-direction: column;
+		align-items: flex-end;		 
+	}
+	@media (min-width:em(1150)){
+		padding: 22px 0px;
+		justify-content: flex-end;
+	}
+	@media (max-width:$mobileSmall){
+		align-items: center;		  
+	}
+
+	// .auth-header__item
+	&__item {
+		display: flex;
+		align-items: center;
+		position: relative;
+		@media (min-width:em(1150)){		
+		&:not(:last-child) {
+			&::before {
+				content:"";	
+				position: absolute;	
+				top: 0;
+				@include adaptiveValue("right", -24, -10, 2, 1330, 1150); 				
+				width: 1px;
+				height: 100%;				
+				background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 15%,rgba(255,255,255,1) 50%,rgba(255,255,255,0.5) 85%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */				
+			}
+		}
+	}
+	}
+
+	// .auth-header__link
+	&__link {
+		text-align: center;
+		line-height: 140%;
+		transition: color 0.3s ease 0s;	
+		@media (any-hover: hover){
+			&:hover {
+				color: $mainYellow;
+			}
+		}
+		@media (max-width:$mobileSmall){
+			 font-size: rem(20);  // установление размера шрифта на моб.
+		}
+			
+	}
+}
+
+//====================================================================================================
+
+//Burger
+
+.icon-menu {
+	display: none;
+	@media (max-width: $mobile) {
+		display: block;
+		position: relative;
+		flex: 0 0  40px;
+		height: 22.5px;
+		cursor: pointer;
+		z-index: 5;
+		span,
+		&::before,
+		&::after {
+			content: "";
+			transition: all 0.3s ease 0s;
+			right: 0px;
+			position: absolute;
+			width: 100%;
+			height: rem(2);
+			background-color: #fff;
+		}
+		&::before {
+			top: 0px;
+		}
+		&::after {
+			bottom: 0px;
+		}
+		span {
+			top: calc(50% - rem(1));
+		}
+		.menu-open & {
+			span {
+				transform: scale(0);
+			}
+			&::before {
+				transform: rotate(-45deg);
+				top: calc(50% - rem(1));				
+			}
+			&::after {
+				transform: rotate(45deg);
+				bottom: calc(50% - rem(1));				
+			}
+		}
+	}
+}
+
+
+//====================================================================================================
+
+//Burger образец
+/*
+.icon-menu {
+	display: none;
+	@media (max-width: $mobile) {
+		display: block;
+		position: relative;
+		width: rem(30);
+		height: rem(18);
+		cursor: pointer;
+		z-index: 5;
+		span,
+		&::before,
+		&::after {
+			content: "";
+			transition: all 0.3s ease 0s;
+			right: 0;
+			position: absolute;
+			width: 100%;
+			height: rem(2);
+			background-color: #000;
+		}
+		&::before {
+			top: 0;
+		}
+		&::after {
+			bottom: 0;
+		}
+		span {
+			top: calc(50% - rem(1));
+		}
+		.menu-open & {
+			span {
+				width: 0;
+			}
+			&::before,
+			&::after {
+			}
+			&::before {
+				top: calc(50% - rem(1));
+				transform: rotate(-45deg);
+			}
+			&::after {
+				bottom: calc(50% - rem(1));
+				transform: rotate(45deg);
+			}
+		}
+	}
+}
+*/
+
+
+
+
+

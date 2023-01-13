@@ -1,0 +1,24 @@
+//<BUTTONS (a.btn+tab)>
+// Снипет (HTML): btn
+
+.button {	
+	padding: rem(8) rem(32);
+	@extend %cormor;
+	font-size: rem(20);
+	font-weight: 700;
+	line-height: 175%;
+	background-color: $mainYellow;
+	color: $mainColorDark;
+	text-align: center;
+	text-transform: capitalize;
+	@media (any-hover: hover) {
+		&:hover {
+			transition: all 0.4s ease 0s;
+			background-color: $mainColorDark;
+			color: $mainYellow;
+		}
+	}
+	&._fw {
+		width: 100%;
+	}
+}
