@@ -410,8 +410,8 @@
 
 .book {
     position: relative;
-    @include adaptiveValue("padding-top", 150, 40);   // Адаптивные отступы внутри блока сверху
-    @include adaptiveValue("padding-bottom", 150, 40);   // Адаптивные отступы внутри блока снизу
+    @include adaptiveValue("padding-top", 150, 0);   // Адаптивные отступы внутри блока сверху
+    @include adaptiveValue("padding-bottom", 150, 0);   // Адаптивные отступы внутри блока снизу
     
 
     // .book__container
@@ -435,8 +435,8 @@
             margin: 0px rem(-32);   // Блок больше контейнера на 32px по бокам
         }
         padding: 0px rem(32);
-        @include adaptiveValue("padding-top", 48, 20);   // Адаптивные отступы внутри плашки сверху
-        @include adaptiveValue("padding-bottom", 48, 20);   // Адаптивные отступы внутри плашки снизу
+        @include adaptiveValue("padding-top", 48, 40);   // Адаптивные отступы внутри плашки сверху
+        @include adaptiveValue("padding-bottom", 48, 40);   // Адаптивные отступы внутри плашки снизу
         background:#0c0c0c;
         border: 1px solid rgb(220, 202, 135, 0.2);
         box-sizing: border-box;
@@ -514,6 +514,7 @@
 
 .menu-block { 
     position: relative;          
+    overflow: hidden;
     &__bg{
         position: absolute;
         width: 100%;
@@ -523,11 +524,27 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        @media (max-width: $tablet){
+            img {
+                opacity: 0.5;
+            }
+              
+        }
     }
     // .menu-block__container
     &__container {
         // .menu-block__container_wide
         &_wide {
+            position: relative;
+            &::before{
+                content:'';
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                @media (max-width: em(1024)){
+                      display: none;
+                }
+            }
         }
     }
     // .menu-block__menu
@@ -538,7 +555,11 @@
     // .menu-block__list
     &__list {
         display: grid;
-        gap: 65px; // Отступ между наименованиями
+        @include adaptiveValue("gap", 65, 20);  // Отступ между наименованиями адаптивный
+        @media (max-width:$tablet){
+            justify-content: center; // Центрировать блоки (гриды) на моб. устройствах, ограничивает грид максимальным размером текста
+            text-align: center; // Центрировать текст в блоках (гридах) на моб. устройствах, выравнивает текст по центру грид-блока
+        }
     }
     // .menu-block__link
     &__link {
@@ -548,11 +569,12 @@
         letter-spacing: 0.03em;
         line-height: 130%;
         text-transform: capitalize;
-        text-decoration: underline;
+        text-decoration: underline; //  Свойство для эффекта обратного традиционному ховеру - всегда подчеркнуто, при ховере нет
         color: #fff;
+        border-bottom: 2px solid #fff;
         @media (any-hover: hover){
             &:hover{
-                text-decoration: none;
+                border-bottom: 1px solid transparent; // Убрать при ховере подчеркивание
             }
         }
 
@@ -564,4 +586,119 @@
     }
 }
 
+ // spesial ========================================================================================================================================================
+  
+.special {
+    @include adaptiveValue("padding-top", 150, 40);   // Адаптивные отступы внутри блока сверху
+    @include adaptiveValue("padding-bottom", 150, 40);   // Адаптивные отступы внутри блока снизу
+     // .special__container
+     &__container {
+        display: grid;
+        @include adaptiveValue("gap", 65, 30);        
+    }
+    &__header {        
+    }
+    // .special__body
+    &__body {
+        display: grid;
+        @media (max-width:$tablet) and (min-width:$mobile) {
+            grid-template-columns: repeat(2, 1fr); // Убрать один фрагмент  по достижению размеров с ПС до планшета
+        }
+        @media (min-width:$tablet){
+            grid-template-columns: repeat(3, 1fr); // В "строку"
+        }        
+        gap: 32px;
+       
+    }
+    &__button {
+        justify-self: center;
+    }
+    // .special__table
+    &__table {
+        
+    }
+    // .special__image
+    &__image {
+        img {
+            max-width: 100%; // Свойство позволяет "сужаться" при меньшем разрешении экрана
+        }
+        @media (max-width:$tablet){
+            display: none; // Убрать картинку на планшетах
+        }
+    }
+}
+.table-special {
+    // .table-special__body
+    &__body {
+        display: grid;
+        @include adaptiveValue("gap", 40, 20);  
+    }
+    // .table-special__item
+    &__item {
+        display: grid; // Грид для  __name и __info
+        gap: 8px; // Отступ между строками наименования __name и __info
+    }
+    // .table-special__name
+    &__name {
+        padding: 0px rem(10) 0px 0px;
+        @extend %cormor;
+        color: $mainYellow;
+        font-weight: 600;        
+        line-height: 130%;
+        @media (min-width:$mobileSmall){
+            background-color: $mainColorDark;
+        }        
+    }
+    // .table-special__price
+    &__price {
+        @extend %cormor;
+        text-align: right;        
+        color: #fff;
+        padding: 0px 0px 0px rem(10); // Левый отступ безопасности
+        @media (min-width:$mobileSmall){
+            background-color: $mainColorDark;
+        }
+    }
+    // .table-special__info
+    &__info {
+        line-height: 150%;
+    }
+}
+.table-special {
+    // .table-special__title
+    &__title {
+        text-align: center;
+        color: #fff;
+        @extend %cormor;
+        font-weight: 600;
+        line-height: 130%;
+        @include adaptiveValue("font-size", 45, 35);
+        &:not(:last-child) {margin-bottom: em(48, 45);} // Адаптивный нижний маржин для "не последнего" тайтла -mble
+    }
+    // .table-special__header
+    &__header {
+        display: grid;
+        grid-template-columns: 1fr 70px;
+        justify-content: space-between; // Разнести внутренние элементы, ограниченные только внутренним контентом, по краям
+        @include adaptiveValue("font-size", 23, 18);       
+        > * {
+            z-index: 2; // Впереди умолчаний 1 
+            position: relative; // Свойство для before
+        }
+        @media (min-width:$mobileSmall){
+            grid-template-columns: 225px 70px;
+            position: relative;             
+            &::before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 1px;
+                top: 10px;
+                left: 0;
+                background-color: #fff; 
+        }
+        
+    }
+}
+}
 

@@ -61,6 +61,7 @@
 		line-height: 130%;		
 		letter-spacing: 0.04em;		
 		text-transform: uppercase; // Заглавными 
+		border: none;
 		@include adaptiveValue("font-size", 44, 35, 2, 1330, 319);		
 		}
 
