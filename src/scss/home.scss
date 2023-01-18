@@ -596,7 +596,8 @@
         display: grid;
         @include adaptiveValue("gap", 65, 30);        
     }
-    &__header {        
+    &__header { 
+             
     }
     // .special__body
     &__body {
@@ -701,4 +702,142 @@
     }
 }
 }
+
+// chef ========================================================================================================================================================
+
+.chef {
+    @include adaptiveValue("padding-top", 150, 30);   // Адаптивные отступы внутри блока сверху
+    @include adaptiveValue("padding-bottom", 150, 30);   // Адаптивные отступы внутри блока снизу
+    // .chef__container
+    &__container {
+        display: grid;
+        row-gap: 30px;        
+        @media (min-width:$tablet){
+            column-gap: 80px;
+            grid-template-columns: repeat(2, 1fr);            
+        }
+    }
+    &__column {
+        &:first-child{
+            text-align: center;
+        }
+        &:last-child{
+            align-self: center;
+        }
+
+    }
+    // .chef__image
+    &__image {
+        display: inline-block;
+        //overflow: hidden;
+        position: relative;
+        &::before,
+        &::after{
+            content:'';
+            position: absolute;
+            width: 100%;
+            background-color: $mainYellow;
+            transition: transform 0.3s ease 0s;
+            width: percent(435, 619);
+            height: percent(435, 688);
+            @media (max-width:$tablet){
+                display: none;
+            }
+        }
+        &::before{
+            top: 0; 
+            right: 0;
+            transform: translate(20px, -20px);           
+        }
+        &::after{
+            bottom: 0;
+            left: 0;
+            transform: translate(-20px, 20px);            
+        }
+        img {
+            max-width: 100%;
+            position: relative;
+            transition: transform 0.3s ease 0s;
+            z-index: 2;            
+        } 
+        @media (any-hover: hover){
+            &:hover{
+                &::before{                    
+                    transform: translate(30px, -30px);           
+                }
+                &::after{                    
+                    transform: translate(-30px, 30px);            
+                }
+                img {
+                    transform: scale(1.05);                    
+                }                
+            }
+        }       
+    }
+    // .chef__content
+    &__content {       
+        display: grid;
+        @include adaptiveValue("gap", 60, 40);
+        @include adaptiveValue("padding-left", 40, 0);
+
+    }
+    // .chef__header
+    &__header {       
+    }
+    // .chef__text
+    &__text {
+        font-style: italic;
+        line-height: 150%;
+        &::before{
+            display: inline-block;
+            font-size: rem(40);
+            color: #fff;
+            margin: 0px em(10, 40) 0px 0px;
+        }
+    }
+    // .chef__info
+    &__info {
+    }
+    &__signature {
+        
+
+    }
+}
+
+._icon {
+    // ._icon__quote
+    &__quote {
+    }
+}
+.info-chef {
+    // .info-chef__title
+    &__title {
+        color: $mainYellow;
+        @extend %cormor;
+        font-size: rem(32);
+        line-height: 130%;
+    }
+    // .info-chef__text
+    &__text {
+    }
+    // .info-chef__signature
+    
+}
+
+// video-module ========================================================================================================================================================
+.video-module {
+    padding-bottom: percent(763, 1920);
+    position: relative;
+    // .video-module__item
+    &__item {      
+        object-fit: cover; //
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;                
+    }
+}
+
+
 
