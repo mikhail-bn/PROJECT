@@ -758,7 +758,8 @@
             max-width: 100%;
             position: relative;
             transition: transform 0.3s ease 0s;
-            z-index: 2;            
+            z-index: 2;
+                     
         } 
         @media (any-hover: hover){
             &:hover{
@@ -828,14 +829,50 @@
 .video-module {
     padding-bottom: percent(763, 1920);
     position: relative;
+    cursor: pointer;
+    &::before,
+    &::after {
+        content:'';
+        position: absolute;        
+        top: 50%; // Положение относительно relative
+        left: 50%; // Положение относительно relative
+        transform: translate(-50%, -50%); // Координаты центра текущего объекта (смещение в центр - изначально верхний левый угол)       
+        z-index: 2; 
+    }
+    &::before{        
+        border: 1px solid #DCCA87;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%; 
+             
+    }
+    &::after{        
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 18px 0 18px 32px;
+        border-color: transparent transparent transparent #fff;
+    }
+    &._active {
+        &::before,
+        &::after {
+            display: none;
+        }
+        .video-module__item {
+            filter: grayscale(0);
+        }
+    }
+    
+
     // .video-module__item
-    &__item {      
+    &__item {   
+        @extend %greyfilter;   
         object-fit: cover; //
         position: absolute;
         width: 100%;
         height: 100%;
         top: 0;
-        left: 0;                
+        left: 0;                      
     }
 }
 
