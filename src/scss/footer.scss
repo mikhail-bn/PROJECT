@@ -1,29 +1,143 @@
 //====================================================================================================
 .footer {
-    position: relative;
-    z-index: 2;
-    // .footer__container
-    &__container {
-        display: flex;
-        padding: rem(15) 0;
-        justify-content: center;
-    }
-    // .footer__copyright
-    /* &__copyright {       
-        color: $mainYellow;
-        font-weight: 600;
-        font-size: rem(20);
-        @extend %cormor;
-        @media (any-hover: hover){
-            &:hover{
-                transform: scale(1.2);
-                transition: scale 0.8s ease 0s;
-            }
-        }        
-    } */
+		@include adaptiveValue("padding-top", 150, 30);   // Адаптивные отступы внутри блока сверху
+		@include adaptiveValue("padding-bottom", 150, 30);   // Адаптивные отступы внутри блока снизу
+		position: relative;
+		z-index: 2;
+		// .footer__container
+		&__container {
+			
+		}		
+			// .footer__body - основной контейнер содержащий контент
+		&__body {
+			// Для моб и планшетов
+			display: grid; // Грид умолч. - row, блоки будут выстроены в колонку
+			text-align: center; // Текст в блоке по центру - иначе будет слева
+			row-gap: 30px; // между блоками	
+			// От самого большого до планшета далее						
+			@media (min-width: $tablet) {
+				align-items: flex-start; // Контент будет прижат к верху блока
+				column-gap: 20px; // между блоками 20px
+				justify-content: space-between; // Всё не задействованное пространство будет распределено между блоками
+				grid-template-columns: 300px 1fr 300px; // Грид column, блоки будут выстроены в строку
+			}
+		}
+			// .footer__contacts
+		&__contacts {
+			//
+			@media (min-width: $tablet) {
+				// Контент first поджимается к левому верхнему углу (верхнему т.к. ранее align-items: flex-start) - иначе растягивается на весь род. блок
+				&:first-child {
+					justify-self: start;
+				}
+				// Контент last поджимается к правому верхнему углу(верхнему т.к. ранее align-items: flex-start) - иначе растягивается на весь род. блок
+				&:last-child {
+					justify-self: end;
+				}
+			}
+			// Далее меняется порядок показа блоков на моб и планшет устройствах
+			@media (max-width: $tablet) {
+				&:first-child {
+					order: 2;
+				}
+				&:last-child {
+					order: 3;
+				}
+			}
+		}
+		// .footer__main
+		&__main {
+				text-align: center;
+				// Порядок блока на моб устройствах и планшетах - первый ??
+			@media (max-width: $tablet) {
+				order: 1;
+			}
+		}
+		&__copy {
+			@include adaptiveValue("padding-top", 80, 30);
+			text-align: center;
+		}
+}
+	
+.contacts-footer {
+	display: grid; //  Грид умолч. - row,  для items и title блоки будут выстроены в колонку
+	gap: 25px; // Между блоками
+	
+		// .contacts-footer__title
+		&__title {
+			color: #f5efdb;
+			@extend %cormor;
+			font-size: rem(32);
+			line-height: 130%;	
+
+		}
+		// .contacts-footer__text
+		&__text {			
+		}
+		// .contacts-footer__items
+		// Грид для item
+		&__items {
+			display: grid;
+			justify-content: center;
+			gap: 15px;
+		}
+		// .contacts-footer__link
+		&__link {
+		}
+		// Грид для блоков <p>
+		&__item {
+			display: grid;
+			justify-content: center;
+			gap: 10px;
+		}
 }
 
- 
+.main-footer {
+		// .main-footer__title
+		&__title {
+			@extend %cormor;
+			text-transform: uppercase;
+			font-size: rem(64);
+			color: #dcca87;
+			line-height: 130%;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			@include adaptiveValue("font-size", 64, 40);
+		}
+		// .main-footer__text
+		&__text {
+			display: inline-block;
+			max-width: rem(438); // Максимальная шир блока __text 438px
+			line-height: 175%;
+			text-align: center;
+			letter-spacing: 0.04em;
+			color: #fff;
+			margin: 0px 0px em(16,16) 0px; // Маржин для текста с ложкой, боттом
+			// Ложка
+			&::after{
+				margin: em(16, 14) 0px 0px 0px; // Маржин для  ложки, топ
+				content:'\e904';
+				display: block;
+				@extend %ic;	
+				color: $mainYellow;
+				font-size: rem(14);
+			}
+		}
+		// .main-footer__social
+		&__social {
+		}
+}
+	
+.social-footer {
+	display:flex; // Флекс для иконок соц сетей
+	justify-content: center;
+	align-items: center;
+	gap: rem(18);
 
-
+	// .social-footer__link
+	&__link {
+		font-size: rem(20);
+		color: #f5efdb;
+	}
+} 
 //====================================================================================================

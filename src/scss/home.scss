@@ -828,8 +828,10 @@
 // video-module ========================================================================================================================================================
 .video-module {
     padding-bottom: percent(763, 1920);
-    position: relative;
-    cursor: pointer;
+    min-height: 300px;
+    position: relative; // Для абсолюта кнопки - кружка и тругольника
+    cursor: pointer; // Рука
+    // Кружок и треугольник
     &::before,
     &::after {
         content:'';
@@ -839,6 +841,7 @@
         transform: translate(-50%, -50%); // Координаты центра текущего объекта (смещение в центр - изначально верхний левый угол)       
         z-index: 2; 
     }
+    // Кружок
     &::before{        
         border: 1px solid #DCCA87;
         width: 120px;
@@ -846,6 +849,7 @@
         border-radius: 50%; 
              
     }
+    // Треугольник
     &::after{        
         width: 0;
         height: 0;
@@ -853,6 +857,7 @@
         border-width: 18px 0 18px 32px;
         border-color: transparent transparent transparent #fff;
     }
+    // Убрать при воспроизведении
     &._active {
         &::before,
         &::after {
@@ -869,12 +874,131 @@
         @extend %greyfilter;   
         object-fit: cover; //
         position: absolute;
+        min-height: 300px;
         width: 100%;
         height: 100%;
         top: 0;
         left: 0;                      
     }
 }
+
+// gallery ===================================================================================================================
+
+.gallery {
+    @include adaptiveValue("padding-top", 128, 40);   // Адаптивные отступы внутри блока сверху
+    @include adaptiveValue("padding-bottom", 128, 40);   // Адаптивные отступы внутри блока снизу
+    position: relative;
+    &::before{
+        content:'';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(4, 4, 4, 0.5);
+        z-index: 3;
+    }
+    
+    // .gallery__container
+    &__container {
+        z-index: 5;
+        display: grid;
+        row-gap: rem(30);       
+        
+        @media (min-width:$tablet){
+            grid-template-columns: rem(490) 1fr;
+            column-gap: rem(64);
+        }
+    }
+    // .gallery__content
+    &__content {
+        align-self: center; // Центрирование коттента блока  по вертикали 
+        display: grid;
+        gap: rem(24);
+        
+        
+    }
+    // .gallery__text
+    &__text {
+        line-height: 130%;
+    }
+    // .gallery__header
+    &__header {
+    }
+    // .gallery__body
+    &__body {
+        min-width: 0;
+        // margin: 0px -100vw 0px 0px; // Параметр сдвигает блок вправо на пол экрана
+    }
+    // .gallery__slider
+    &__slider {
+        width: 100vw;
+        &.swiper {
+            // overflow: visible;
+                       
+        }
+    }
+    // .gallery__swiper
+    &__swiper{
+        
+
+    }    
+    // .gallery__slide-ibg
+    &__slide-ibg {
+        flex: 0 0 300px;
+        width: 300px;
+        height: 447px; // Ограничение высоты фото
+        border: 2px solid rgba(220, 202, 135, 0.2);
+        position: relative;
+        &::before{
+            position: absolute;
+            @extend %ic;
+            @extend ._icon-instagram;           
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 6;            
+            top: 50%;
+            left: 50%;           
+            font-size: rem(43);
+            opacity: 0;
+            transition: all 0.3s ease 0s;
+            transform: translate(-50%, -50%);            
+        }       
+        &::after{
+            content: "";
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;  
+            transition: all 0.3s ease 0s;
+            z-index: 5;          
+            background: linear-gradient(207.55deg, rgba(0, 0, 0, 0.75) 1.5%, rgba(0, 0, 0, 0.64) 98.62%);         
+        }
+        @media (any-hover: hover){
+            &:hover{
+                &::after{
+                    opacity: 1;                    
+                }
+                &::before{
+                    opacity: 1;                
+                }
+            }
+        }
+        @media (max-width:$mobileSmall){
+             height: 420px;
+             flex: 0 0 290px;
+             width: 290px;
+
+        }
+    }
+    // .gallery__button
+    &__button {
+        justify-self: start;  // Центрирование коттента блока  по горизонтали 
+    }
+}
+
+
 
 
 

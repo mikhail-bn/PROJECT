@@ -41,7 +41,9 @@ function bildSliders() {
 function initSliders() {
 	bildSliders();
 	// Перечень слайдеров
+
 	// Проверяем, есть ли слайдер на стронице
+	// Слайдер 1
 	if (document.querySelector('.body-main-slider')) { // Указываем скласс нужного слайдера!
 		// Создаем слайдер
 		new Swiper('.body-main-slider', { // Указываем скласс нужного слайдера!
@@ -135,7 +137,68 @@ function initSliders() {
 			}
 		});
 	}
+	// Слайдер 2
+	if (document.querySelector('.gallery__slider')) { // Указываем скласс нужного слайдера!
+		// Создаем слайдер
+		new Swiper('.gallery__slider', { // Указываем скласс нужного слайдера!
+			// Подключаем модули слайдера
+			// для конкретного случая
+			modules: [Lazy, Autoplay],
+			observer: true,
+			observeParents: true,
+			slidesPerView: 'auto',
+			spaceBetween: 32,
+			autoHeight: false,
+			speed: 1000,
+
+			//touchRatio: 0,
+			//simulateTouch: false,
+			loop: true,
+			preloadImages: false,
+			lazy: {
+				loadPrevNext: true,
+			},
+			
+			// Эффекты
+			autoplay: {
+				delay: 3000,
+				disableOnInteraction: false, 
+			},
+			
+
+			// Пагинация	
+			
+
+			// Скроллбар
+			/*
+			scrollbar: {
+				el: '.swiper-scrollbar',
+				draggable: true,
+			},
+			*/
+
+			// Кнопки "влево/вправо"
+			/* navigation: {
+				prevEl: '.swiper-button-prev',
+				nextEl: '.swiper-button-next',
+			}, */
+
+			// Брейкпоинты			
+			breakpoints: {				
+			},
+			
+			// События
+			on: {				
+			}
+		});
+	}
+
 }
+
+
+
+
+
 // Скролл на базе слайдера (по классу swiper_scroll для оболочки слайдера)
 function initSlidersScroll() {
 	let sliderScrollItems = document.querySelectorAll('.swiper_scroll');
